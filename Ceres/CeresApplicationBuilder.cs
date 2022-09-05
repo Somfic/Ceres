@@ -1,6 +1,7 @@
 using Ceres.Windowing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Ceres;
 
@@ -10,15 +11,22 @@ public class CeresApplicationBuilder<T> where T : CeresApplication
 
     internal CeresApplicationBuilder(InitialisationOptions options)
     {
-        _builder.ConfigureServices((_, services) =>
+        _builder.ConfigureServices(s =>
         {
-            services.AddSingleton(options);
+            s.AddSingleton(options);
             
             // Windowing
-            services.AddTransient<WindowBuilder>();
+            s.AddTransient<WindowBuilder>();
             
             // User application
-            services.AddSingleton<CeresApplication, T>();
+            s.AddSingleton<CeresApplication, T>();
+        });
+
+        _builder.ConfigureLogging(l =>
+        {
+            l.ClearProviders();
+            l.SetMinimumLevel(LogLevel.Trace);
+            l.AddConsole();
         });
     }
     
@@ -35,7 +43,6 @@ public class CeresApplicationBuilder<T> where T : CeresApplication
 
         if (app == null)
             throw new Exception("Could not build application");
-        
         
         app.Initialise(host.Services);
 

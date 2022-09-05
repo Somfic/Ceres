@@ -2,7 +2,7 @@ using System.Drawing;
 using System.Numerics;
 using Veldrid;
 
-namespace Ceres.Windowing;
+namespace Ceres;
 
 public class InitialisationOptions
 {
@@ -38,5 +38,5 @@ public class InitialisationOptions
     public bool FocusOnLoad { get; init; } = true;
 
     /// <summary>The graphics API to use.</summary>
-    public GraphicsBackend Backend { get; init; } = GraphicsBackend.Metal;
+    public GraphicsBackend Backend { get; init; } = GraphicsBackend.OpenGL;
 }

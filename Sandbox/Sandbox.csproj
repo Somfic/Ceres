@@ -11,4 +11,9 @@
       <ProjectReference Include="..\Ceres\Ceres.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Svelto.Common" Version="3.3.2" />
+      <PackageReference Include="Svelto.ECS" Version="3.3.2" />
+    </ItemGroup>
+
 </Project>
