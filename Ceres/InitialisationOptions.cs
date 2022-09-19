@@ -2,7 +2,7 @@ using System.Drawing;
 using System.Numerics;
 using Veldrid;
 
-namespace Ceres.Windowing;
+namespace Ceres;
 
 public class InitialisationOptions
 {

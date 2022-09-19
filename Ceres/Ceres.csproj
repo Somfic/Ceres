@@ -8,18 +8,27 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="DefaultEcs" Version="0.17.2" />
+      <PackageReference Include="DefaultEcs.Analyzer" Version="0.17.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="ImGui.NET" Version="1.87.3" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-      <PackageReference Include="Svelto.ECS" Version="3.3.2" />
-      <PackageReference Include="Veldrid" Version="4.8.0" />
-      <PackageReference Include="Veldrid.MetalBindings" Version="4.8.0" />
-      <PackageReference Include="Veldrid.OpenGLBindings" Version="4.8.0" />
-      <PackageReference Include="Veldrid.SDL2" Version="4.8.0" />
+      <PackageReference Include="Veldrid" Version="4.9.0-beta2" />
+      <PackageReference Include="Veldrid.ImGui" Version="5.72.0" />
+      <PackageReference Include="Veldrid.MetalBindings" Version="4.9.0-beta2" />
+      <PackageReference Include="Veldrid.OpenGLBindings" Version="4.9.0-beta2" />
+      <PackageReference Include="Veldrid.SDL2" Version="4.9.0-beta2" />
       <PackageReference Include="Veldrid.SPIRV" Version="1.0.15" />
-      <PackageReference Include="Veldrid.StartupUtilities" Version="4.8.0" />
+      <PackageReference Include="Veldrid.StartupUtilities" Version="4.9.0-beta2" />
     </ItemGroup>
 
     <ItemGroup>
       <None Update="libsdl2.dylib">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="libcimgui.dylib">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

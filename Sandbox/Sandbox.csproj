@@ -7,8 +7,27 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+
     <ItemGroup>
       <ProjectReference Include="..\Ceres\Ceres.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="DefaultEcs" Version="0.17.2" />
+      <PackageReference Include="DefaultEcs.Analyzer" Version="0.17.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="ImGui.NET" Version="1.87.3" />
+      <PackageReference Include="Veldrid.ImGui" Version="5.72.0" />
+      <PackageReference Include="Veldrid.SPIRV" Version="1.0.15" />
     </ItemGroup>
 
 </Project>
