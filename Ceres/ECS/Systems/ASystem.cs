@@ -6,7 +6,24 @@ public abstract class ASystem<TState> : ISystem<TState>
 {
     public bool IsEnabled { get; set; } = true;
 
-    public abstract void Update(TState state);
+    protected virtual void OnStart(TState state) {}
 
-    public void Dispose() {}
+    private bool _hasInitialized = false;
+    public void Update(TState state)
+    {
+        if (!IsEnabled)
+            return;
+        
+        if (!_hasInitialized)
+        {
+            OnStart(state);
+            _hasInitialized = true;
+        }
+        
+        OnUpdate(state);
+    }
+
+    protected abstract void OnUpdate(TState state);
+
+    public virtual void Dispose() {}
 }

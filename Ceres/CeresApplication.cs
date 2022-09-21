@@ -45,6 +45,8 @@ public abstract class CeresApplication
     public async Task RunAsync()
     {
         var (window, graphics, commands) = _windowBuilder.Build();
+        window.Resized += () => graphics.ResizeMainWindow((uint) window.Width, (uint) window.Height);
+        
         Start();
 
         var state = new State
@@ -57,11 +59,8 @@ public abstract class CeresApplication
         while (window.Exists)
         {
             state.Input = window.PumpEvents();
-            
             state.Commands.Begin();
-            state.Commands.SetFramebuffer(graphics.SwapchainFramebuffer);
-            state.Commands.ClearColorTarget(0, RgbaFloat.Red);
-
+            
             foreach (var system in _systems)
             {
                 try
@@ -76,7 +75,6 @@ public abstract class CeresApplication
             }
             
             state.Commands.End();
-            
             state.Graphics.SubmitCommands(state.Commands);
             state.Graphics.SwapBuffers();
             state.Graphics.WaitForIdle();

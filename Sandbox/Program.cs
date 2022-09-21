@@ -1,11 +1,10 @@
 ﻿using Ceres;
-using Ceres.ECS.Components;
-using DefaultEcs.System;
-using DefaultEcs.Threading;
+using Ceres.ECS.Systems;
 
 await CeresEngine
-    .Create<SandboxApplication>()
+    .Create<SandboxApplication>(new InitialisationOptions { Resizable = true })
     .AddSystem<UiRenderSystem>()
+    .AddSystem<RenderSystem>()
     .RunAsync();
 
 public class SandboxApplication : CeresApplication
