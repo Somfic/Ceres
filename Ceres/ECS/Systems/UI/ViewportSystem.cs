@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Veldrid;
 using Veldrid.SPIRV;
 
-namespace Ceres.ECS.Systems;
+namespace Ceres.ECS.Systems.UI;
 
 public class UiRenderSystem : ASystem<State>
 {
@@ -55,7 +55,9 @@ void main()
     fsout_Color = fsin_Color;
 }";
 
-    protected override void OnStart(State state)
+    private (uint, uint) windowSize; 
+
+    protected override void OnStart(ref State state)
     {
         _renderer = new ImGuiRenderer(
             state.Graphics, 
@@ -63,7 +65,7 @@ void main()
             state.Window.Width, 
             state.Window.Height);
         
-        state.Window.Resized += () => _renderer.WindowResized(state.Window.Width, state.Window.Height);
+        state.Window.Resized += () => _renderer.WindowResized(State.Window.Width, State.Window.Height);
 
         _applicationTexture = state.Graphics.ResourceFactory.CreateTexture(TextureDescription.Texture2D((uint)_applicationSize.X, (uint)_applicationSize.Y, 1, 1, PixelFormat.R32_G32_B32_A32_Float, TextureUsage.RenderTarget | TextureUsage.Sampled));
 
@@ -121,10 +123,8 @@ void main()
         _pointer = _renderer.GetOrCreateImGuiBinding(state.Graphics.ResourceFactory, _applicationTexture);
     }
 
-    protected override void OnUpdate(State state)
+    protected override void OnUpdate(ref State state)
     {
-        _renderer.Update(1f / 60f, state.Input);
-
         ImGui.Begin("Viewport");
         _applicationSize = ImGui.GetContentRegionAvail();
         ImGui.Image(_pointer, _applicationSize);
@@ -132,7 +132,9 @@ void main()
         
         state.Commands.SetFramebuffer(state.Graphics.SwapchainFramebuffer);
         state.Commands.ClearColorTarget(0, RgbaFloat.Black);
+
         _renderer.Render(state.Graphics, state.Commands);
+        _renderer.Update(1, state.Input);
         
         state.Commands.SetFramebuffer(_applicationFramebuffer);
         state.Commands.SetPipeline(_pipeline);

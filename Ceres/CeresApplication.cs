@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Ceres.ECS;
 using Ceres.ECS.Components;
+using Ceres.ECS.Systems;
 using Ceres.Windowing;
 using DefaultEcs;
 using DefaultEcs.System;
@@ -15,7 +16,7 @@ public abstract class CeresApplication
 {
     private InitialisationOptions _options;
     private WindowBuilder _windowBuilder;
-    private List<ISystem<State>> _systems = new();
+    private List<ASystem<State>> _systems = new();
     private ILogger<CeresApplication>? _log;
     private World _world;
 
@@ -28,9 +29,7 @@ public abstract class CeresApplication
         
         foreach (var systemType in systems)
         {
-            var system = ActivatorUtilities.CreateInstance(provider, systemType) as ISystem<State>;
-
-            if (system == null)
+            if (ActivatorUtilities.CreateInstance(provider, systemType) is not ASystem<State> system)
             {
                 _log?.LogWarning("Could not create system {SystemType}", systemType.Name);
                 continue;
@@ -53,7 +52,8 @@ public abstract class CeresApplication
         {
             Window = window, 
             Graphics =  graphics, 
-            Commands = commands
+            Commands = commands,
+            Ui = new UiState()
         };
         
         while (window.Exists)
@@ -65,7 +65,7 @@ public abstract class CeresApplication
             {
                 try
                 {
-                    system.Update(state);
+                    system.UpdateRef(ref state);
                 }
                 catch (Exception ex)
                 {

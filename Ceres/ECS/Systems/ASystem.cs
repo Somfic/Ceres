@@ -4,26 +4,36 @@ namespace Ceres.ECS.Systems;
 
 public abstract class ASystem<TState> : ISystem<TState>
 {
-    public bool IsEnabled { get; set; } = true;
-
-    protected virtual void OnStart(TState state) {}
-
-    private bool _hasInitialized = false;
+    protected TState State { get; private set; }
+    
     public void Update(TState state)
     {
+        State = state;
+    }
+
+    public bool IsEnabled { get; set; } = true;
+
+    protected virtual void OnStart(ref TState state) {}
+
+    private bool _hasInitialized = false;
+    internal void UpdateRef(ref TState state)
+    {
+        Update(state);
+        
         if (!IsEnabled)
             return;
         
         if (!_hasInitialized)
         {
-            OnStart(state);
+            OnStart(ref state);
             _hasInitialized = true;
+            return;
         }
         
-        OnUpdate(state);
+        OnUpdate(ref state);
     }
 
-    protected abstract void OnUpdate(TState state);
+    protected abstract void OnUpdate(ref TState state);
 
     public virtual void Dispose() {}
 }

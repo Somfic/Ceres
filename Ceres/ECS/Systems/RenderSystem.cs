@@ -10,7 +10,7 @@ public class RenderSystem : ASystem<State>
     private DeviceBuffer _vertexBuffer;
     private DeviceBuffer _indexBuffer;
 
-    protected override void OnStart(State state)
+    protected override void OnStart(ref State state)
     {
         VertexPositionColor[] quadVertices =
         {
@@ -29,7 +29,7 @@ public class RenderSystem : ASystem<State>
         state.Graphics.UpdateBuffer(_indexBuffer, 0, quadIndices);
     }
 
-    protected override void OnUpdate(State state)
+    protected override void OnUpdate(ref State state)
     {
         state.Commands.SetVertexBuffer(0, _vertexBuffer);
         state.Commands.SetIndexBuffer(_indexBuffer, IndexFormat.UInt16);

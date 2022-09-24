@@ -1,3 +1,4 @@
+using DefaultEcs;
 using Veldrid;
 using Veldrid.Sdl2;
 
@@ -14,4 +15,11 @@ public struct State
     public CommandList Commands;
 
     public InputSnapshot Input;
+
+    public UiState Ui;
+}
+
+public struct UiState 
+{
+    public Entity? SelectedEntity;
 }
