@@ -5,14 +5,11 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>preview</LangVersion>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="DefaultEcs" Version="0.17.2" />
-      <PackageReference Include="DefaultEcs.Analyzer" Version="0.17.0">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
+      <PackageReference Include="AssimpNet" Version="4.1.0" />
       <PackageReference Include="ImGui.NET" Version="1.87.3" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
       <PackageReference Include="Veldrid" Version="4.9.0-beta2" />
@@ -31,6 +28,10 @@
       <None Update="libcimgui.dylib">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="ECS\Internal\.DS_Store" />
     </ItemGroup>
 
 </Project>

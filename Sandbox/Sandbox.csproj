@@ -20,14 +20,18 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="DefaultEcs" Version="0.17.2" />
-      <PackageReference Include="DefaultEcs.Analyzer" Version="0.17.0">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
       <PackageReference Include="ImGui.NET" Version="1.87.3" />
       <PackageReference Include="Veldrid.ImGui" Version="5.72.0" />
       <PackageReference Include="Veldrid.SPIRV" Version="1.0.15" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Models\monkey.obj" />
+      <EmbeddedResource Include="Models\monkey.obj" LogicalName="monkey.obj">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <None Update="Models\monkey.mtl">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
 </Project>

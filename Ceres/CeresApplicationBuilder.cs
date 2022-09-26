@@ -1,8 +1,8 @@
+using Ceres.Assets;
 using Ceres.ECS;
+using Ceres.ECS.System;
+using Ceres.ECS.Threading;
 using Ceres.Windowing;
-using DefaultEcs;
-using DefaultEcs.System;
-using DefaultEcs.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -12,6 +12,7 @@ public class CeresApplicationBuilder<T> where T : CeresApplication
 {
     private readonly IHostBuilder _builder =  Host.CreateDefaultBuilder();
     private readonly List<Type> _systems = new();
+    private readonly List<Type> _resources = new();
     private readonly World _world = new();
     private readonly IParallelRunner _parallelRunner = new DefaultParallelRunner(Environment.ProcessorCount);
 
@@ -26,6 +27,9 @@ public class CeresApplicationBuilder<T> where T : CeresApplication
             
             // User application
             services.AddSingleton<CeresApplication, T>();
+            
+            // Asset loader
+            services.AddTransient<AssetLoader>();
             
             // ECS
             services.AddSingleton(_world);
@@ -77,8 +81,14 @@ public class CeresApplicationBuilder<T> where T : CeresApplication
         if (app == null)
             throw new Exception("Could not build application");
         
-        app.Initialise(host.Services, _systems);
+        app.Initialise(host.Services, _systems, _resources);
 
         return app;
+    }
+
+    public CeresApplicationBuilder<T> AddResource<TResourceManager>()
+    {
+        _resources.Add(typeof(TResourceManager));
+        return this;
     }
 }
